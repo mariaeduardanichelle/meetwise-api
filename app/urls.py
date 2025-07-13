@@ -17,16 +17,22 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from meetwise.views import (
     EventListView,
     EventDetailView,
     RegistrationCreateView,
     UserRegistrationsView,
+    RegisterUserView,
 )
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/register/', RegisterUserView.as_view(), name='register'),
 
     path('events/', EventListView.as_view(), name='event-list'),
     path('events/<int:pk>/', EventDetailView.as_view(), name='event-detail'),
